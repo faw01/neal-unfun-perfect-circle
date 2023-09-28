@@ -1,0 +1,49 @@
+import pyautogui
+import math
+import time
+
+# move mouse to top-left corner to abort
+pyautogui.FAILSAFE = True
+
+# radius of the circle
+RADIUS = 440
+
+# starting point of the circle
+start_x, start_y = 1400, 580
+
+# center of the circle based on the starting point
+center_x = start_x - RADIUS
+center_y = start_y
+
+# move mouse to the starting position
+pyautogui.moveTo(start_x, start_y, duration=0.5)  # 0.5 seconds for a smoother transition
+
+# wait (alt-tab to the game here)
+print("Waiting for 5 seconds...")
+time.sleep(2)
+
+# duration to complete the circle
+DURATION = 6.0
+
+# calculate the end time
+end_time = time.time() + DURATION
+
+# holds down the mouse button
+pyautogui.mouseDown()
+
+# move the mouse in a circle
+try:
+    while time.time() < end_time:
+        elapsed_time = (time.time() - (end_time - DURATION))
+        
+        angle = 2 * math.pi * elapsed_time / DURATION
+        
+        x = center_x + RADIUS * math.cos(angle)
+        y = center_y + RADIUS * math.sin(angle)
+        
+        pyautogui.moveTo(x, y, duration=0.0000000001)
+finally:
+    # release
+    pyautogui.mouseUp()
+
+print("99.99% Perfect Circle")
